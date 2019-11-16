@@ -27,7 +27,7 @@ return_maker <- function(WTI_fut)
 }
 
 
-#Lellen??rzi, hogy fent van-e tidyverse, ha nem, telepíti
+#LellenÅ‘rzi, hogy fent van-e tidyverse, ha nem, telepÃ­ti
 tidyverse_check_installer <- function()
 {
   my_packages <- library()$results
@@ -49,13 +49,13 @@ tidyverse_check_installer <- function()
 }
 
 
-#kezdo_datum = "2015-01-01" #paraméter, mikortól kezdõdjön a korreláció számítása
-#veg_datum = "2016-12-31" #paraméter, meddig tartson a korreláció számítása
-#kesleltet<-100 #paraméter, mennyivel történjen a késleltetés
-#ablak_meret<-100 #paraméter, mekkora idõintervallumon történjen a korreláció számítása
-#X = 1 #paraméter, melyik eszköz (ez lesz eltolva)
-#Y = 2 #paraméter, melyik másik eszköz
-#tipp: az ablak_meret 5-nél nem lehet kisebb
+#kezdo_datum = "2015-01-01" #paramÃ©ter, mikortÃ³l kezdÅ‘djÃ¶n a korrelÃ¡ciÃ³ szÃ¡mÃ­tÃ¡sa
+#veg_datum = "2016-12-31" #paramÃ©ter, meddig tartson a korrelÃ¡ciÃ³ szÃ¡mÃ­tÃ¡sa
+#kesleltet<-100 #paramÃ©ter, mennyivel tÃ¶rtÃ©njen a kÃ©sleltetÃ©s
+#ablak_meret<-100 #paramÃ©ter, mekkora idÅ‘intervallumon tÃ¶rtÃ©njen a korrelÃ¡ciÃ³ szÃ¡mÃ¡tÃ¡sa
+#X = 1 #paramÃ©ter, melyik eszkÃ¶z (ez lesz eltolva)
+#Y = 2 #paramÃ©ter, melyik mÃ¡sik eszkÃ¶z
+#tipp: az ablak_meret 5-nÃ©l nem lehet kisebb
 
 
 
@@ -67,23 +67,23 @@ korrelacio <-
            X = 1,
            Y = 2) {
     
-    #ellen??rizzük be van-e töltve tidyverse, ha nincs, betöltjük
+    #ellenÅ‘rizzÃ¼k be van-e tÃ¶ltve tidyverse, ha nincs, betÃ¶ltjÃ¼k
     tidyverse_check_installer()
     
     
-    # Átalakítjuk dátummá
+    # Ã¡talakÃ­tjuk dÃ¡tummÃ¡
     kezdo_datum = as.Date(kezdo_datum)
     veg_datum = as.Date(veg_datum)
     
-    # Beolvassuk a fájlt
+    # Beolvassuk a fÃ¡jlt
     WTI2 <- readxl::read_excel("WTI2.xlsx")
     WTI2 <<-return_maker(WTI2)
-    adat_kezdo = as.Date(WTI2[1, 1]$Date) #legelsõ megfigyelés idõpontja
-    adat_vegso = as.Date(WTI2[length(WTI2[[1]]), 1]$Date) #utolsó megfigyelés idõpontja
+    adat_kezdo = as.Date(WTI2[1, 1]$Date) #legelsÅ‘ megfigyelÃ©s idÅ‘pontja
+    adat_vegso = as.Date(WTI2[length(WTI2[[1]]), 1]$Date) #utolsÃ³ megfigyelÃ©s idÅ‘pontja
     
     #changed the start-end date to our because i still dont know what dataset we will use
     
-    # Leellenõrizzük, hogy a paramétereink megfelelõek-e
+    # LeellenÅ‘rÃ­zzÃ¼k, hogy a paramÃ©tereink megfelelÅ‘ek-e
     if (!check_parameters(adat_kezdo,
                           adat_vegso,
                           kezdo_datum,
@@ -95,40 +95,40 @@ korrelacio <-
       stop("RIP")
     } 
     
-    #szám formátumban megkapom a paraméter kezdõ dátum és a legelsõ megfigyelés közötti idõt
+    #szÃ¡m formÃ¡tumban megkapom a paramÃ©ter KezdÅ‘ dÃ¡tum Ã©s a legelsÅ‘ megfigyelÃ©s kÃ¶zÃ¶tti idÅ‘t
     decent <-
       as.integer(as.Date(kezdo_datum) - as.Date(adat_kezdo))
-    i = decent + kesleltet + 1#az elsõ adatsort eltolom a késleltetéssel, és a kezdõ dátummal
+    i = decent + kesleltet + 1#az ElsÅ‘ adatsort eltolom a kÃ©sleltetÃ©ssel, Ã©s a KezdÅ‘ dÃ¡tummal
     output = NULL
     
-    # Szám formátumban megkapom a paraméter végsõ dátum és a legelsõ megfigyelés közötti idõt
+    # szÃ¡m formÃ¡tumban megkapom a paramÃ©ter VÃ©gsÅ‘ dÃ¡tum Ã©s a legelsÅ‘ megfigyelÃ©s kÃ¶zÃ¶tti idÅ‘t
     vegso <-
       as.integer(as.Date(veg_datum) - as.Date(adat_kezdo)) + 1
     
-    # A results változóba kapjuk vissza a korrelációkat X és Y adatoszlop között
-    # tipp: elég csak a CL* formában megadni ezt a két számot a program automatikusan
-    # hozzáad egyet, hogy megkapja az oszlopok indexét az adatokban (tehát nem szükséges CL(* - 1))
+    # A results vÃ¡ltozÃ³ba kapjuk vissza a korrelÃ¡ciÃ³kat X Ã©s Y adatoszlop kÃ¶zÃ¶tt
+    # tipp: elÃ©g csak a CL* formÃ¡ban megadni ezt a kÃ©t szÃ¡mot a program automatikusan
+    # hozzÃ¡ad egyet, hogy megkapja az oszlopok indexÃ©t az adatokban (tehÃ¡t nem szÃ¼ksÃ©ges CL(* - 1))
     results = calculate_correlation(vegso, ablak_meret, kesleltet, i, X, Y)
     
-    # Csak egy külön változóba kitesszük a dátumokat
+    # Csak egy kÃ¼lÃ¶n vÃ¡ltozÃ³ba kitesszÃ¼k a dÃ¡tumokat
     dates <-
       as.Date(WTI2$Date[(decent + ablak_meret + kesleltet + 1):vegso])
     
-    # Ez lesz az idõsor (dátum- és korrelációs vektor)
+    # Ez lesz az idÅ‘sor (dÃ¡tum- Ã©s korrelÃ¡ciÃ³s vektor)
     data_plot <- cbind(dates, results)
     
-    # Hogy jobban értse az olvasó a kódot megváltoztatjuk az oszlopok neveit
+    # Hogy jobban Ã©rtse az olvasÃ³ a kÃ³dot megvÃ¡ltoztatjuk az oszlopok neveit
     colnames(data_plot) <- c("Dates", "Correlations")
     
     
-    # Átalakítjuk az adathalmazunk tibble-re, hogy szebben tudjuk ábrázolni.
+    # Ã¡talakÃ­tjuk az adathalmazunk tibble-re, hogy szebben tudjuk Ã¡brÃ¡zolni.
     tibble_data <- as_tibble(data_plot)
     
     tibble_data$Dates <-
       as.Date(tibble_data$Dates, origin = "1970-01-01")
     
-    # Úgy kerül ábrázolásra, hogy a kezdõ idõpont +eltolás+ablak mérete lesz az elsõ idõpont,
-    # amire korreláció lesz, és az utolsó pedig a paraméterként megadott utolsó idõpontra lesz
+    # Ãºgy kerÃ¼l Ã¡brÃ¡zolÃ¡sra, hogy a KezdÅ‘ idÅ‘pont +eltolÃ¡s+ablak mÃ©rete lesz az ElsÅ‘ idÅ‘pont,
+    # amire korrelÃ¡ciÃ³ lesz, Ã©s az utolsÃ³ pedig a paramÃ©terkÃ©nt megadott utolsÃ³ idÅ‘pontra lesz
     plot_data_function(tibble_data,
                        kezdo_datum,
                        veg_datum,
@@ -139,9 +139,9 @@ korrelacio <-
   }
 #problem1: wti2 matrix does not get generated in function but <<- sign was used
 
-# Ez a függvény ellenõrzi le, hogy a paraméterek megfelelõen vannak-e megadva
-# Ha valamelyik hibás, akkor FALSE visszatérési értéket ad, ezután a program
-# egy hibaüzenet ír ki és kilép
+# Ez a fÃ¼ggvÃ©ny ellenÅ‘rzi le, hogy a paramÃ©terek megfelelÅ‘en vannak-e megadva
+# Ha valamelyik hibÃ¡s, akkor FALSE visszatÃ©rÃ©si Ã©rtÃ©ket ad, ezutÃ¡n a program
+# egy hibaÃ¼zenet Ã­r ki Ã©s kilÃ©p
 check_parameters <-
   function(adat_kezdo,
            adat_vegso,
@@ -151,65 +151,65 @@ check_parameters <-
            ablak_meret,
            X,
            Y) {
-    # Leellenõrizzük, hogy karakter formátumokba kaptuk-e a kezdõ és vég dátumokat, tehát át tudtuk alakítani
+    # LeellenÅ‘rÃ­zzÃ¼k, hogy karakter formÃ¡tumokba kaptuk-e a KezdÅ‘ Ã©s vÃ©g dÃ¡tumokat, tehÃ¡t Ã¡t tudtuk alakÃ­tani
     if (typeof(kezdo_datum) != "double" || typeof(veg_datum) != "double") {
-      print("Karakter formátumba adja meg a kezdõ és végdátumokat pl: \"2010-01-01\"")
+      print("Karakter formÃ¡tumba adja meg a KezdÅ‘ Ã©s vÃ©gdÃ¡tumokat pl: \"2010-01-01\"")
       return(FALSE)
       
-      # Ha karakterek, akkor megnézzük, hogy a fájlban megadott intervallumba esnek-e
+      # Ha karakterek, akkor megnÃ©zzÃ¼k, hogy a fÃ¡jlban megadott intervallumba esnek-e
     } else if (kezdo_datum < adat_kezdo || veg_datum > adat_vegso) {
       print(
         paste(
-          "Kérjük olyan dátumot adjon meg, ami az elemzés intervallumába beleesik:",
+          "KÃ©rjÃ¼k olyan dÃ¡tumot adjon meg, ami az elemzÃ©s intervallumÃ¡ba beleesik:",
           adat_kezdo,
-          "és",
+          "Ã©s",
           adat_vegso,
-          "között."
+          "kÃ¶zÃ¶tt."
         )
       )
       return(FALSE)
       
-      # Leellenõrizzük, hogy a többi paramétert egész szám formátumban adta meg
+      # LeellenÅ‘rÃ­zzÃ¼k, hogy a tÃ¶bbi paramÃ©tert egÃ©sz szÃ¡m formÃ¡tumban adta meg
     } else if (typeof(kesleltet) != "double" ||
                typeof(ablak_meret) != "double" ||
                typeof(X) != "double" || typeof(Y) != "double") {
-      print("Kérjük a dátumokon kívüli paramétereket egész számok formájában adja meg.")
+      print("KÃ©rjÃ¼k a dÃ¡tumokon kÃ­vÃ¼li paramÃ©tereket egÃ©sz szÃ¡mok formÃ¡jÃ¡ban adja meg.")
       return(FALSE)
       
-      # Ellenõrizzük, hogy megfelelõ intevallumban kaptuk-e meg a paramétereket (pl. az ablak_meret nem negatív)
+      # ellenÅ‘rÃ­zzÃ¼k, hogy megfelelÅ‘ intevallumban kaptuk-e meg a paramÃ©tereket (pl. az ablak_meret nem negatÃ­v)
     } else if (kesleltet < 0 || X < 1 || X > 24 || Y < 1 || Y > 24 ) {
-      print("Kérjük megfelelõ intevallumban adja meg a paramétereket (pl. a késleltetés ne legyen negatív).")
+      print("KÃ©rjÃ¼k megfelelÅ‘ intevallumban adja meg a paramÃ©tereket (pl. a kÃ©sleltetÃ©s ne legyen negatÃ­v).")
       return(FALSE)
       
-      # Ablak méret ellenõrzése, 5-nél kisebbet nem fogadunk el.
+      # Ablak mÃ©ret ellenÅ‘rzÃ©se, 5-nÃ©l kisebbet nem fogadunk el.
     } else if (ablak_meret <= 4) {
-      print("Az ablak_meret nem lehet 5-nél kisebb.")
+      print("Az ablak_meret nem lehet 5-nÃ©l kisebb.")
       return(FALSE)
       
-      # Ellenõrizzük, hogy az ablak méret és a késleltetés összege kisebb nagyobb-e, mint az elemzendõ intervallum
+      # ellenÅ‘rÃ­zzÃ¼k, hogy az ablak mÃ©ret Ã©s a kÃ©sleltetÃ©s Ã¶sszege kisebb nagyobb-e, mint az elemzendÅ‘ intervallum
     } else if (as.integer(as.Date(veg_datum) - as.Date(kezdo_datum)) <= (kesleltet + ablak_meret)) {
-      print("Adjon meg bõvebb intervallumot, vagy csekélyebb ablak méretet és késleltetést!")
+      print("Adjon meg bÅ‘vebb intervallumot, vagy csekÃ©lyebb ablak mÃ©retet Ã©s kÃ©sleltetÃ©st!")
       return (FALSE)
     }
     return(TRUE)
   } # beni: ez fasza nagyon, maradhat
 
 
-# Ebben a függvényben számoljuk ki a korrelációt. Visszatérésként a korrelációs vektort adja.
-# tipp: elég csak a CL* formában megadni ezt a két számot a program automatikusan
-# hozzáad egyet, hogy megkapja az oszlopok indexét az adatokban. Tehát ha X = 1 és
-# Y = 2 a kapott paraméter, akkor CL1 és CL2 között számol.
+# Ebben a fÃ¼ggvÃ©nyben szÃ¡moljuk ki a korrelÃ¡ciÃ³t. VisszatÃ©rÃ©skÃ©nt a korrelÃ¡ciÃ³s vektort adja.
+# tipp: elÃ©g csak a CL* formÃ¡ban megadni ezt a kÃ©t szÃ¡mot a program automatikusan
+# hozzÃ¡ad egyet, hogy megkapja az oszlopok indexÃ©t az adatokban. TehÃ¡t ha X = 1 Ã©s
+# Y = 2 a kapott paramÃ©ter, akkor CL1 Ã©s CL2 kÃ¶zÃ¶tt szÃ¡mol.
 calculate_correlation <-
   function(ablak_meret = 100,
            kesleltet = 0,
            i = 1,
-           the_data = WTI2) { #beni: átírtam a the_data-t a hozam matrixra azaz WTI2-re. 
-    vegso=nrow(WTI2)-1 #beni: egy oszlop címeknek megy 
+           the_data = WTI2) { #beni: Ã¡tÃ­rtam a the_data-t a hozam matrixra azaz WTI2-re. 
+    vegso=nrow(WTI2)-1 #beni: egy oszlop cÃ­meknek megy 
     output = NULL
     CorMatrixCol=((n)/2*(n-1)) +1# this is the number of columns that contains correlations +1 as date vector [first one]
     pairedCorrelation=matrix(nrow=m,ncol=CorMatrixCol)
     #pairedCorrelation[,1]=WTI2[,1]# fill up the matrix with our dates from the return matrix
-    #warning: NEM RAK BELÉJE DÁTIÓUMOT A GENNYLÁTA
+    #warning: NEM RAK BELÃ‰JE DÃTUMOT A GENNYLÃTA
     z=2
     j=1
     i=1
@@ -217,11 +217,11 @@ calculate_correlation <-
       for (k in (j+1):n){
         
         while (i <= vegso - ablak_meret) {
-          #itt számolódik a korreláció
+          #itt szÃ¡molÃ³dik a korrelÃ¡ciÃ³
           pairedCorrelation[i,z] = cor(the_data[[1 + j]][i:(ablak_meret + i)], the_data[[1 + k]][(i - kesleltet):(ablak_meret + i - kesleltet)])
-          # output = rbind(output, correlation) # ez lesz a korreláció vektora
+          # output = rbind(output, correlation) # ez lesz a korrelÃ¡ciÃ³ vektora
           # pairedCorrelation[i,z]=correlation
-          i = i + 1 # Tovább lépés
+          i = i + 1 # TovÃ¡bb lÃ©pÃ©s
           
         }
         i=1
@@ -231,23 +231,23 @@ calculate_correlation <-
       #k=0
       j=j+1   
     }
-    # Annyiszor kell korrelációt futtatni, amennyi az utolsó megadott dátum, és az eltolás+késleltetés+kezdõ dátum (paraméter) közötti idõ
+    # Annyiszor kell korrelÃ¡ciÃ³t futtatni, amennyi az utolsÃ³ megadott dÃ¡tum, Ã©s az eltolÃ¡s+kÃ©sleltetÃ©s+kezdÅ‘ dÃ¡tum (paramÃ©ter) kÃ¶zÃ¶tti idÅ‘
     
     
-    #beni : itt beraktam a párosító korrelációs izét
-    # Ellenõrzés, hogy nagyjából megfelelõ erdményt kaptunk-e.
-    # Ha nem, akkor megszakítja a program futását.
+    #beni : itt beraktam a pÃ¡rosÃ­tÃ³ korrelÃ¡ciÃ³s izÃ©t
+    # EllenÅ‘rzÃ©s, hogy nagyjÃ¡bÃ³l megfelelÅ‘ erdmÃ©nyt kaptunk-e.
+    # Ha nem, akkor megszakÃ­tja a program futÃ¡sÃ¡t.
     
-    #beni: if check_results részt kivettem mert szerintem nem fog kelleni,ez a komment felett volt
-    #beni: vegso=2557 ...:(. 2557 hasznos sor van az ár mátrixban, nekünk a hozamnál 2556 lesz úgyhogy nem lehet ezt bent hagyni így
-    #beni: a vegso parameter mostmár egy sor számolás lesz abból a mátrixból ami alapból van-1 a sornév miatt.
+    #beni: if check_results rÃ©szt kivettem mert szerintem nem fog kelleni,ez a komment felett volt
+    #beni: vegso=2557 ...:(. 2557 hasznos sor van az Ã¡r mÃ¡trixban, nekÃ¼nk a hozamnÃ¡l 2556 lesz Ãºgyhogy nem lehet ezt bent hagyni Ã­gy
+    #beni: a vegso parameter mostmÃ¡r egy sor szÃ¡molÃ¡s lesz abbÃ³l a mÃ¡trixbÃ³l ami alapbÅ‘l van-1 a sornÃ©v miatt.
   }
-# Egy rövid vizsgálat, hogy az eredményeink megfelelnek-e a valóságnak
-# A korreláció [-1, 1] intervallumon mozog.
+# Egy rÃ¶vid vizsgÃ¡lat, hogy az eredmÃ©nyeink megfelelnek-e a valÃ³sÃ¡gnak
+# A korrelÃ¡ciÃ³ [-1, 1] intervallumon mozog.
 check_results <- function(results) {
   
-  # Az eredmény mátrixon végigiterálva, megnézzük van-e 1 nél nagyobb
-  # vagy 0-nál kisebb szám.
+  # Az eredmÃ©ny mÃ¡trixon vÃ©gigiterÃ¡lva, megnÃ©zzÃ¼k van-e 1 nÃ©l nagyobb
+  # vagy 0-nÃ¡l kisebb szÃ¡m.
   for(row in 1:nrow(results)){
     if (results[row, 1] < -1.0000 || results[row, 1] > 1.0000){
       return(FALSE)
@@ -255,10 +255,10 @@ check_results <- function(results) {
   }
   
   return(TRUE)
-} # erre egyáltalán van szükség?
+} # erre egyÃ¡ltalÃ¡n van szÃ¼ksÃ©g?
 
 
-# Ábrázolás, a paraméterek kiírásához szükséges azok átadása, paraméterként.
+# Ã¡brÃ¡zolÃ¡s, a paramÃ©terek kiÃ­rÃ¡sÃ¡hoz szÃ¼ksÃ©ges azok Ã¡tadÃ¡sa, paramÃ©terkÃ©nt.
 plot_data_function <-
   function(the_data,
            loc_kezdo_datum,
@@ -272,19 +272,19 @@ plot_data_function <-
       aeys(x = Dates, y = Correlations) +
       geom_line(color = "#1f9e98", size = 1) +
       labs(
-        title = "Dinamikus Korreláció",
+        title = "Dinamikus korrelÃ¡ciÃ³",
         subtitle = paste(
-          "Kezdõ dátum: ",
+          "KezdÅ‘ dÃ¡tum: ",
           loc_kezdo_datum,
-          "\nVégsõ dátum: ",
+          "\nVÃ©gsÅ‘ dÃ¡tum: ",
           loc_veg_datum,
-          "\nKésleltetés: ",
+          "\nkÃ©sleltetÃ©s: ",
           loc_kesleltet,
           "\nRolling window: ",
           loc_ablak_meret,
-          "\nElsõ adathalmaz: ",
+          "\nElsÅ‘ adathalmaz: ",
           loc_X,
-          "\nMásodik adathalmaz: ",
+          "\nMÃ¡sodik adathalmaz: ",
           loc_Y
         )
       ) + 
