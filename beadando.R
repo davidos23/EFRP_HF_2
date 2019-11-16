@@ -1,5 +1,6 @@
 require(tidyverse)
 require(readxl)
+#install.packages("Tidyverse")
 
 #kezdo_datum = "2015-01-01" #paraméter, mikortól kezdődjön a korreláció számítása
 #veg_datum = "2016-12-31" #paraméter, meddig tartson a korreláció számítása
@@ -9,6 +10,27 @@ require(readxl)
 #Y = 2 #paraméter, melyik másik eszköz
 #tipp: az ablak_meret 5-nél nem lehet kisebb
 
+tidyverse_check_installer <- function()
+{
+  my_packages <- library()$results
+  n = length(my_packages)
+  readpackage = 0
+  for(i in 1:n)
+  {
+    if (my_packages[i] == "tidyverse")
+    {
+      readpackage <- i
+    }
+  }
+  
+  if (readpackage==0){
+    # readxl package is not installed, so now we have to
+    install.packages("tidyverse")
+  }
+
+}
+
+
 korrelacio <-
   function(kezdo_datum = "2010-01-01",
            veg_datum = "2016-12-31",
@@ -16,7 +38,8 @@ korrelacio <-
            ablak_meret = 100,
            X = 1,
            Y = 2) {
-    
+    #ellenőrizzük be van-e töltve tidyverse, ha nincs, betöltjük
+    tidyverse_check_installer()
     
     # Átalakítjuk dátummá
     kezdo_datum = as.Date(kezdo_datum)
@@ -68,7 +91,7 @@ korrelacio <-
     
     
     # Átalakítjuk az adathalmazunk tibble-re, hogy szebben tudjuk ábrázolni.
-    tibble_data <- as_tibble(data_plot)
+    tibble_data <- tibble::as_tibble(data_plot)
     
     tibble_data$Dates <-
       as.Date(tibble_data$Dates, origin = "1970-01-01")
@@ -199,10 +222,10 @@ plot_data_function <-
            loc_X,
            loc_Y) {
     
-    gg <- ggplot(the_data) +
-      aes(x = Dates, y = Correlations) +
-      geom_line(color = "#1f9e98", size = 1) +
-      labs(
+    gg <- ggplot2::ggplot(the_data) +
+      ggplot2::aes(x = Dates, y = Correlations) +
+      ggplot2::geom_line(color = "#1f9e98", size = 1) +
+      ggplot2::labs(
         title = "Dinamikus Korreláció",
         subtitle = paste(
           "Kezdő dátum: ",
@@ -219,7 +242,7 @@ plot_data_function <-
           loc_Y
         )
       ) + 
-    scale_x_date(date_breaks = "1 year", date_labels = "%Y")
+    ggplot2::scale_x_date(date_breaks = "1 year", date_labels = "%Y")
     
     plot(gg)
     
